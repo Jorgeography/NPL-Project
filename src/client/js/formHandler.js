@@ -3,7 +3,21 @@ function handleSubmit(event) {
 
     // check what text was put into the form field
     let formText = document.getElementById('name').value
-   Client.checkForName(formText)
+    console.log(formText)
+   //Client.checkForName(formText)
+   
+   const postData = async (url, postData) => {
+    const result = await fetch(url, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify(postData)
+    });
+    const data = await result.json();
+    return data;
+  };
+
 
     // api fetch? 
     console.log("::: Form Submitted :::")
