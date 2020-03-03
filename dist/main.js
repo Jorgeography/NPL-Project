@@ -594,7 +594,7 @@ __webpack_require__.r(__webpack_exports__);
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "handleSubmit", function() { return handleSubmit; });
-function handleSubmit(event) {
+async function handleSubmit(event) {
     event.preventDefault()
 
     // check what text was put into the form field
@@ -602,13 +602,38 @@ function handleSubmit(event) {
     console.log(formText)
    //Client.checkForName(formText)
 
+
+const myObject = {url: formText}
+   const postData = async (url, postData) => {
+    const result = await fetch(url, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify(postData)
+    });
+    const data = await result.json();
+    return data;
+  };
+const resultFromServer = await postData ("/PostURL", myObject);
+
+console.log(resultFromServer);
+
+document.getElementById("text").textContent = `Text: ${resultFromServer.text}`
+document.getElementById("polarity").textContent = `Polarity: ${resultFromServer.polarity} ` 
+document.getElementById("polarity_confidence").textContent = `Polarity Confidence: ${resultFromServer.polarity_confidence}`
+document.getElementById("subjectivity").textContent = `Subjectivity: ${resultFromServer.subjectivity} `
+document.getElementById("subjectivity_confidence").textContent = `Subjectivity Confidence: ${resultFromServer.subjectivity_confidence} `
+
+
     // api fetch? 
-    console.log("::: Form Submitted :::")
-    fetch('http://localhost:8080/api')
-    .then(res => res.json())
-    .then(function(res) {
-        document.getElementById('results').innerHTML = res.message
-    })
+    //console.log("::: Form Submitted :::")
+    //fetch('http://localhost:8080/api')
+    
+    //.then(res => res.json())
+   //  .then(function(res) {
+  //      document.getElementById('results').innerHTML = res.message
+   // })
 }
 
 
@@ -637,6 +662,7 @@ function checkForName(inputText) {
     ]
 
    if(names.includes(inputText)) {
+       return true;
     //    alert("Welcome, Captain!")
     }
 }

@@ -19,11 +19,27 @@ const textapi = new aylien({
 });
 
 app.get('/', function (req, res) {
-    res.sendFile('dist/index.html')
+    res.sendFile(path.resolve('dist/index.html'));
 })
 
-app.get('/test', function (req, res) {
-    res.send(mockAPIResponse)
+//app.get('/test', function (req, res) {
+   //res.send(mockAPIResponse)
+//})
+
+app.post ("/PostURL", function (req, res){
+    console.log(req.body);
+    const urlName = req.body.url;
+    textapi.sentiment({
+        url: urlName
+    }, function(error, response) {
+        if (error === null) {
+            console.log(response);
+            res.send(response)
+        } else {
+            res.send(error)
+        }
+    });
+    
 })
 
 
@@ -34,5 +50,5 @@ app.listen(8081, function () {
     console.log('Example app listening on port 8081!')
 })
 
-console.log(`Your API key is ${process.env.API_KEY}`);
+console.log(`Your API key is ${process.env.APIkey}`);
 
