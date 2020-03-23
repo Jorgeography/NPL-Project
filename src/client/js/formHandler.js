@@ -1,3 +1,7 @@
+import {
+  checkForUrl
+} from './urlChecker';
+
 async function handleSubmit(event) {
     event.preventDefault()
 
@@ -5,7 +9,7 @@ async function handleSubmit(event) {
     let formText = document.getElementById('name').value
     console.log(formText)
    //Client.checkForName(formText)
-
+   if (!checkForUrl(formText)) {document.getElementById("text").textContent = "Not a valid url."; return; }
 
 const myObject = {url: formText}
    const postData = async (url, postData) => {
